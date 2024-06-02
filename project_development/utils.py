@@ -3,23 +3,29 @@ import json as js
 import os
 
 
-def load_operations():
+def load_operations(path_to_file):
     """
      Фунция получает список операций из operations.json
     """
-    path_operations = os.path.abspath('..//operations.json')
+    path_operations = os.path.abspath(path_to_file)
     with open(path_operations, 'r', encoding='utf-8') as file:
         list_operations = js.loads(file.read())
-        sorted_operations = sorted(list_operations, key=lambda x: x.get('date', '0'))
-        five_operations = sorted_operations[:6]
-        return five_operations
+        return list_operations
 
 
-def sort_by_data():
+def five_operations(list_operations):
+    """
+    Функция оставляет последние 5 операций
+    """
+    sorted_operations = sorted(list_operations, key=lambda x: x.get('date', '0'))
+    last_five_operations = sorted_operations[:6]
+    return last_five_operations
+
+
+def sort_by_data(five_operations):
     """
     Функция переводит дату в нужный формат
     """
-    five_operations = load_operations()
     del five_operations[0]
     for operations in five_operations:
         operations['date'] = datetime.fromisoformat(operations['date']).strftime('%d.%m.%Y')
@@ -40,5 +46,3 @@ def masc_and_split(card):
     return masked_number
 
 
-sort_by_data()
-masc_and_split('Visa Classic 8906171742833215')
