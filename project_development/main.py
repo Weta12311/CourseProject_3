@@ -1,8 +1,11 @@
-import utils
+
+import project_development.utils as utils
 
 
-def main():
-    sorted_operations = utils.sort_by_data()
+def main(path_to_json):
+    list_operations = utils.load_operations(path_to_json)
+    five_operations = utils.five_operations(list_operations)
+    sorted_operations = utils.sort_by_data(five_operations)
     for operations in sorted_operations:
         if operations.get('from') is not None:
             masked_number_from = utils.masc_and_split(operations['from'])
@@ -17,5 +20,7 @@ def main():
                   f"{operations['operationAmount']['amount']} {operations['operationAmount']['currency']['name']}\n"
                   )
 
-main()
+
+main('..//operations.json')
+#main("..//tests//test.json")
 
